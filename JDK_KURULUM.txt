@@ -1,0 +1,55 @@
+═══════════════════════════════════════════════════════════
+           JDK KURULUM REHBERİ
+═══════════════════════════════════════════════════════════
+
+SORUN: Bilgisayarınızda Java Derleyicisi (JDK) kurulu değil.
+       Sadece Java Runtime Environment (JRE) var.
+
+ÇÖZÜMLERİ:
+──────────────────────────────────────────────────────────
+
+YÖNTEM 1 - Eclipse Temurin (ÖNERİLEN)
+──────────────────────────────────────────────────────────
+1. https://adoptium.net/ adresini açın
+2. "Latest LTS Release" -> JDK 21 seçin
+3. Windows x64 için .msi dosyasını indirin
+4. Kurulum sırasında "Set JAVA_HOME" seçeneğini işaretleyin
+5. "Add to PATH" seçeneğini işaretleyin
+6. Kurulumu tamamlayın
+7. PowerShell'i YENIDEN başlatın
+8. Test edin: javac -version
+
+YÖNTEM 2 - Oracle JDK 8 (Mevcut JRE ile uyumlu)
+──────────────────────────────────────────────────────────
+1. https://www.oracle.com/java/technologies/downloads/#java8-windows
+2. "x64 Installer" indirin (jdk-8uXXX-windows-x64.exe)
+3. Kurulumu çalıştırın
+4. PowerShell'i YENIDEN başlatın
+5. Test edin: javac -version
+
+YÖNTEM 3 - Manuel PATH Ekleme (Eğer JDK başka yerdeyse)
+──────────────────────────────────────────────────────────
+1. JDK kurulum dizinini bulun (örn: C:\Program Files\Java\jdk-21)
+2. Windows Arama'da "Ortam Değişkenleri" yazın
+3. "Sistem ortam değişkenlerini düzenle"yi açın
+4. "Ortam Değişkenleri" butonuna tıklayın
+5. "Path" değişkenini düzenleyin
+6. Yeni ekle: C:\Program Files\Java\jdk-21\bin
+7. Tümünü kaydedin ve PowerShell'i yeniden başlatın
+
+KURULUM SONRASI TEST:
+──────────────────────────────────────────────────────────
+PowerShell'de şu komutları çalıştırın:
+
+    javac -version
+    java -version
+
+Her ikisi de sürüm göstermeli!
+
+SONRA PROGRAMI ÇALIŞTIRIN:
+──────────────────────────────────────────────────────────
+    cd c:\Users\yahya\java1
+    javac CurrencyConverter.java
+    java CurrencyConverter
+
+═══════════════════════════════════════════════════════════
