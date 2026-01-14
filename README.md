@@ -10,6 +10,16 @@ Gerçek zamanlı döviz kurlarını çeken basit bir Java konsol uygulaması. AP
 
 ## 🚀 Nasıl Çalıştırılır?
 
+### 1. API Key Ayarları
+```bash
+# config.properties.example dosyasını kopyalayın
+cp config.properties.example config.properties
+
+# config.properties dosyasına kendi API anahtarınızı ekleyin
+# API anahtarı için: https://www.exchangerate-api.com/
+```
+
+### 2. Derleme ve Çalıştırma
 ```bash
 # Derleme
 javac CurrencyConverter.java

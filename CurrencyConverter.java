@@ -2,15 +2,39 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.FileInputStream;
 import java.util.Scanner;
+import java.util.Properties;
 
 public class CurrencyConverter {
 
-    // Senin API anahtarın buraya eklendi
-    private static final String API_KEY = "ecb24a97d7b9894dba57d6c9";
-    private static final String BASE_URL = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/USD";
+    private static String API_KEY;
+    private static String BASE_URL;
+
+    // Config dosyasından API key'i yükle
+    private static boolean loadConfig() {
+        try {
+            Properties props = new Properties();
+            FileInputStream fis = new FileInputStream("config.properties");
+            props.load(fis);
+            fis.close();
+            API_KEY = props.getProperty("API_KEY");
+            BASE_URL = "https://v6.exchangerate-api.com/v6/" + API_KEY + "/latest/USD";
+            return API_KEY != null && !API_KEY.isEmpty();
+        } catch (Exception e) {
+            System.out.println("[Hata] config.properties dosyası bulunamadı!");
+            System.out.println("Lütfen config.properties.example dosyasını config.properties olarak kopyalayın");
+            System.out.println("ve kendi API anahtarınızı ekleyin.");
+            return false;
+        }
+    }
 
     public static void main(String[] args) {
+        // Önce config dosyasını yükle
+        if (!loadConfig()) {
+            return;
+        }
+
         Scanner scanner = new Scanner(System.in);
 
         try {
