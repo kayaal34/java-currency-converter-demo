@@ -1,4 +1,5 @@
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -63,7 +64,7 @@ public class CurrencyConverter {
 
             // 2. API İsteği Oluşturma ve Yanıtı Alma
             System.out.println("[Bilgi] Güncel kurlar çekiliyor...");
-            URL url = new URL(String.format(API_URL, apiKey, from));
+            URL url = URI.create(String.format(API_URL, apiKey, from)).toURL();
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
