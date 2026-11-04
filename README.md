@@ -4,9 +4,11 @@ Gerçek zamanlı döviz kurlarını çeken basit bir Java konsol uygulaması. AP
 
 ## ✨ Özellikler
 - ✅ Gerçek zamanlı döviz kurları (ExchangeRate-API)
+- ✅ İstediğiniz iki para birimi arasında dönüşüm (varsayılan USD -> TRY)
+- ✅ Miktarı virgülle veya noktayla girebilme (12,50 / 12.50)
 - ✅ Basit JSON parsing
 - ✅ Kullanıcı dostu konsol arayüzü
-- ✅ Java 8+ uyumlu
+- ✅ Java 11+ uyumlu
 
 ## 🚀 Nasıl Çalıştırılır?
 
@@ -17,6 +19,9 @@ cp config.properties.example config.properties
 
 # config.properties dosyasına kendi API anahtarınızı ekleyin
 # API anahtarı için: https://www.exchangerate-api.com/
+
+# Ya da dosya yerine ortam değişkeni kullanın
+export EXCHANGE_RATE_API_KEY=anahtariniz
 ```
 
 ### 2. Derleme ve Çalıştırma
@@ -28,8 +33,14 @@ javac CurrencyConverter.java
 java CurrencyConverter
 ```
 
+### 3. Testler
+```bash
+javac -encoding UTF-8 *.java
+java CurrencyConverterTest
+```
+
 ## 📋 Gereksinimler
-- Java JDK 8 veya üzeri
+- Java JDK 11 veya üzeri
 - İnternet bağlantısı (API erişimi için)
 
 ## 🛠️ Kullanılan Teknolojiler
@@ -42,12 +53,13 @@ java CurrencyConverter
 =======================================
    JAVA REAL-TIME CURRENCY CONVERTER   
 =======================================
-[Bilgi] Güncel kurlar çekiliyor...
-
+Kaynak para birimi [USD]:
+Hedef para birimi [TRY]:
 Dönüştürmek istediğiniz USD miktarını girin: 100
+[Bilgi] Güncel kurlar çekiliyor...
 ---------------------------------------
 Tutar: 100,00 USD
-Güncel TRY Kuru: 43,1543
+Güncel USD/TRY Kuru: 43,1543
 Sonuç: 4315,43 TRY
 ---------------------------------------
 ```
