@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.util.Scanner;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CurrencyConverter {
 
@@ -63,7 +65,11 @@ public class CurrencyConverter {
 
                 // 3. Kullanıcıdan Miktar Alma
                 System.out.print("\nDönüştürmek istediğiniz USD miktarını girin: ");
-                double usdAmount = scanner.nextDouble();
+                double usdAmount = parseAmount(scanner.nextLine());
+                if (usdAmount < 0) {
+                    System.out.println("[Hata] Geçerli, negatif olmayan bir miktar girin (ör. 12,50 veya 12.50).");
+                    return;
+                }
 
                 // 4. JSON içinden TRY kurunu bulma (Basit manuel ayıklama)
                 double tryRate = parseRate(jsonResponse.toString(), "TRY");
@@ -91,18 +97,32 @@ public class CurrencyConverter {
         }
     }
 
-    // JSON içindeki belirli bir kur değerini bulmak için yardımcı metod
-    private static double parseRate(String json, String currency) {
-        try {
-            String searchPattern = "\"" + currency + "\":";
-            int startIndex = json.indexOf(searchPattern) + searchPattern.length();
-            int endIndex = json.indexOf(",", startIndex);
-            if (endIndex == -1) {
-                endIndex = json.indexOf("}", startIndex);
-            }
-            return Double.parseDouble(json.substring(startIndex, endIndex).trim());
-        } catch (Exception e) {
+    // Kullanıcının girdiği miktarı okur; Türkçe sistemlerde yazılan virgülü de kabul eder.
+    // Geçersiz veya negatif girişte -1 döner.
+    static double parseAmount(String input) {
+        if (input == null) {
             return -1;
         }
+        try {
+            double amount = Double.parseDouble(input.trim().replace(',', '.'));
+            if (amount < 0 || Double.isNaN(amount) || Double.isInfinite(amount)) {
+                return -1;
+            }
+            return amount;
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    // JSON içindeki belirli bir kur değerini bulmak için yardımcı metod.
+    // Kur yoksa -1 döner; eskiden başka bir alanın değeri okunabiliyordu.
+    static double parseRate(String json, String currency) {
+        Pattern pattern = Pattern.compile(
+            "\"" + Pattern.quote(currency) + "\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?)");
+        Matcher matcher = pattern.matcher(json);
+        if (!matcher.find()) {
+            return -1;
+        }
+        return Double.parseDouble(matcher.group(1));
     }
 }
